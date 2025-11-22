@@ -12,3 +12,4 @@ C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\refint
 C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.pdb
 C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.genruntimeconfig.cache
 C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\ref\chess-csharp.dll
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.sourcelink.json
