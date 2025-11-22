@@ -1,0 +1,14 @@
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\bin\Debug\net9.0\chess-csharp.exe
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\bin\Debug\net9.0\chess-csharp.deps.json
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\bin\Debug\net9.0\chess-csharp.runtimeconfig.json
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\bin\Debug\net9.0\chess-csharp.dll
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\bin\Debug\net9.0\chess-csharp.pdb
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.AssemblyInfoInputs.cache
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.AssemblyInfo.cs
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.csproj.CoreCompileInputs.cache
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.dll
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\refint\chess-csharp.dll
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.pdb
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\chess-csharp.genruntimeconfig.cache
+C:\Users\bruno\OneDrive\Documentos\projects\chess-csharp\obj\Debug\net9.0\ref\chess-csharp.dll
