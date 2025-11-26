@@ -21,5 +21,20 @@ board.PlacePiece(new Chess.Queen(Color.White, board), new Position(7, 3));
 board.PlacePiece(new Chess.King(Color.Black, board), new Position(0, 4));
 board.PlacePiece(new Chess.King(Color.White, board), new Position(7, 4));
 
+board.PlacePiece(new Chess.Knight(Color.Black, board), new Position(0, 1));
+board.PlacePiece(new Chess.Knight(Color.Black, board), new Position(0, 6));
+board.PlacePiece(new Chess.Knight(Color.White, board), new Position(7, 1));
+board.PlacePiece(new Chess.Knight(Color.White, board), new Position(7, 6));
+
+for (int i = 0; i < 8; i++)
+{
+  board.PlacePiece(new Chess.Pawn(Color.Black, board), new Position(1, i));
+}
+
+
+for (int i = 0; i < 8; i++)
+{
+  board.PlacePiece(new Chess.Pawn(Color.White, board), new Position(6, i));
+}
 
 Screen.PrintBoard(board);
