@@ -35,6 +35,14 @@ try
       Console.ReadLine();
     }
   }
+  
+  Console.Clear();
+  Screen.PrintMatch(match);
+  Console.WriteLine();
+  Console.ForegroundColor = ConsoleColor.Green;
+  Console.WriteLine("XEQUE-MATE!");
+  Console.ResetColor();
+  Console.WriteLine($"Vencedor: {match.CurrentPlayer}");
 }
 catch (Exception ex)
 {

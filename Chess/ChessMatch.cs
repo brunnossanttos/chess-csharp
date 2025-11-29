@@ -61,8 +61,15 @@ namespace Chess
         Check = false;
       }
       
-      Turn++;
-      ChangePlayer();
+      if (TestCheckmate(Opponent(CurrentPlayer)))
+      {
+        Finished = true;
+      }
+      else
+      {
+        Turn++;
+        ChangePlayer();
+      }
     }
 
     public void ValidateOriginPosition(Position position)
@@ -156,6 +163,41 @@ namespace Chess
         }
       }
       return false;
+    }
+
+    public bool TestCheckmate(Color color)
+    {
+      if (!IsInCheck(color))
+      {
+        return false;
+      }
+
+      foreach (Piece piece in GetPiecesInGame(color))
+      {
+        bool[,] possibleMoves = piece.PossibleMoves();
+        for (int i = 0; i < Board.Lines; i++)
+        {
+          for (int j = 0; j < Board.Columns; j++)
+          {
+            if (possibleMoves[i, j])
+            {
+              if (piece.Position == null) continue;
+              
+              Position origin = piece.Position;
+              Position destination = new Position(i, j);
+              Piece capturedPiece = ExecuteMove(origin, destination);
+              bool testCheck = IsInCheck(color);
+              UndoMove(origin, destination, capturedPiece);
+              
+              if (!testCheck)
+              {
+                return false;
+              }
+            }
+          }
+        }
+      }
+      return true;
     }
 
     private void UndoMove(Position origin, Position destination, Piece capturedPiece)

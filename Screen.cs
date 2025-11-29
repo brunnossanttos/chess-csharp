@@ -134,14 +134,17 @@ namespace ChessBoard
       Console.WriteLine();
       Console.WriteLine($"Turno: {match.Turn}");
       
-      if (match.Check)
+      if (!match.Finished)
       {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("XEQUE!");
-        Console.ResetColor();
+        if (match.Check)
+        {
+          Console.ForegroundColor = ConsoleColor.Red;
+          Console.WriteLine("XEQUE!");
+          Console.ResetColor();
+        }
+        
+        Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");
       }
-      
-      Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");
     }
 
     private static void PrintCapturedPieces(Chess.ChessMatch match)
