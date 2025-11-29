@@ -4,8 +4,15 @@ namespace Chess
 {
   public class Pawn : Piece
   {
+    private ChessMatch? Match { get; set; }
+
     public Pawn(Color color, Board board) : base(color, board)
     {
+    }
+
+    public Pawn(Color color, Board board, ChessMatch match) : base(color, board)
+    {
+      Match = match;
     }
 
     public override string ToString()
@@ -58,6 +65,20 @@ namespace Chess
       {
         mat[pos.Line, pos.Column] = true;
       }
+
+      if (Position.Line == 3)
+      {
+        Position left = new Position(Position.Line, Position.Column - 1);
+        if (ChessBoard.IsValidPosition(left) && ExistsEnemy(left) && ChessBoard.GetPiece(left) == Match?.EnPassantVulnerable)
+        {
+          mat[left.Line - 1, left.Column] = true;
+        }
+        Position right = new Position(Position.Line, Position.Column + 1);
+        if (ChessBoard.IsValidPosition(right) && ExistsEnemy(right) && ChessBoard.GetPiece(right) == Match?.EnPassantVulnerable)
+        {
+          mat[right.Line - 1, right.Column] = true;
+        }
+      }
     }
     else
     {
@@ -86,6 +107,20 @@ namespace Chess
       if (ChessBoard.IsValidPosition(pos) && ExistsEnemy(pos))
       {
         mat[pos.Line, pos.Column] = true;
+      }
+
+      if (Position.Line == 4)
+      {
+        Position left = new Position(Position.Line, Position.Column - 1);
+        if (ChessBoard.IsValidPosition(left) && ExistsEnemy(left) && ChessBoard.GetPiece(left) == Match?.EnPassantVulnerable)
+        {
+          mat[left.Line + 1, left.Column] = true;
+        }
+        Position right = new Position(Position.Line, Position.Column + 1);
+        if (ChessBoard.IsValidPosition(right) && ExistsEnemy(right) && ChessBoard.GetPiece(right) == Match?.EnPassantVulnerable)
+        {
+          mat[right.Line + 1, right.Column] = true;
+        }
       }
     }
 
