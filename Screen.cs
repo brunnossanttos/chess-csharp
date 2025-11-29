@@ -2,99 +2,116 @@ namespace ChessBoard
 {
   public class Screen
   {
+    private static void PrintHeader()
+    {
+      Console.ForegroundColor = ConsoleColor.Cyan;
+      Console.WriteLine("╭──────────────────────────────────────╮");
+      Console.WriteLine("│      ♟  JOGO DE XADREZ C#  ♟      │");
+      Console.WriteLine("╰──────────────────────────────────────╯");
+      Console.ResetColor();
+      Console.WriteLine();
+    }
     public static void PrintBoard(Board board, Color currentPlayer)
     {
       if (currentPlayer == Color.White)
       {
         for (int i = 0; i < board.Lines; i++)
         {
+          Console.ForegroundColor = ConsoleColor.Cyan;
           Console.Write(8 - i + " ");
+          Console.ResetColor();
           for (int j = 0; j < board.Columns; j++)
           {
             Piece? piece = board.GetPiece(i, j);
-            PrintPieceColor(piece, false);
+            PrintPieceColor(piece, false, i, j);
           }
           Console.WriteLine();
         }
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("  a b c d e f g h");
+        Console.ResetColor();
       }
       else
       {
         for (int i = board.Lines - 1; i >= 0; i--)
         {
+          Console.ForegroundColor = ConsoleColor.Cyan;
           Console.Write(8 - i + " ");
+          Console.ResetColor();
           for (int j = board.Columns - 1; j >= 0; j--)
           {
             Piece? piece = board.GetPiece(i, j);
-            PrintPieceColor(piece, false);
+            PrintPieceColor(piece, false, i, j);
           }
           Console.WriteLine();
         }
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("  h g f e d c b a");
+        Console.ResetColor();
       }
     }
 
     public static void PrintBoard(Board board, bool[,] possiblePositions, Color currentPlayer)
     {
-      ConsoleColor originalBackground = Console.BackgroundColor;
-      ConsoleColor highlightBackground = ConsoleColor.DarkGray;
-
       if (currentPlayer == Color.White)
       {
         for (int i = 0; i < board.Lines; i++)
         {
+          Console.ForegroundColor = ConsoleColor.Cyan;
           Console.Write(8 - i + " ");
+          Console.ResetColor();
           for (int j = 0; j < board.Columns; j++)
           {
-            if (possiblePositions[i, j])
-            {
-              Console.BackgroundColor = highlightBackground;
-            }
-            else
-            {
-              Console.BackgroundColor = originalBackground;
-            }
-
             Piece? piece = board.GetPiece(i, j);
-            PrintPieceColor(piece, possiblePositions[i, j]);
+            PrintPieceColor(piece, possiblePositions[i, j], i, j);
           }
           Console.WriteLine();
-          Console.BackgroundColor = originalBackground;
         }
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("  a b c d e f g h");
+        Console.ResetColor();
       }
       else
       {
         for (int i = board.Lines - 1; i >= 0; i--)
         {
+          Console.ForegroundColor = ConsoleColor.Cyan;
           Console.Write(8 - i + " ");
+          Console.ResetColor();
           for (int j = board.Columns - 1; j >= 0; j--)
           {
-            if (possiblePositions[i, j])
-            {
-              Console.BackgroundColor = highlightBackground;
-            }
-            else
-            {
-              Console.BackgroundColor = originalBackground;
-            }
-
             Piece? piece = board.GetPiece(i, j);
-            PrintPieceColor(piece, possiblePositions[i, j]);
+            PrintPieceColor(piece, possiblePositions[i, j], i, j);
           }
           Console.WriteLine();
-          Console.BackgroundColor = originalBackground;
         }
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("  h g f e d c b a");
+        Console.ResetColor();
       }
-      Console.BackgroundColor = originalBackground;
     }
 
-    private static void PrintPieceColor(Piece? piece, bool highlight)
+    private static void PrintPieceColor(Piece? piece, bool highlight, int line, int column)
     {
+      // Definir cor de fundo baseada na posição (tabuleiro xadrez)
+      bool isLightSquare = (line + column) % 2 == 0;
+      
+      if (highlight)
+      {
+        Console.BackgroundColor = ConsoleColor.DarkGreen;
+      }
+      else if (isLightSquare)
+      {
+        Console.BackgroundColor = ConsoleColor.DarkGray;
+      }
+      else
+      {
+        Console.BackgroundColor = ConsoleColor.Black;
+      }
+
       if (piece == null)
       {
-        Console.Write("- ");
+        Console.Write("  ");
       }
       else
       {
@@ -107,9 +124,9 @@ namespace ChessBoard
           Console.ForegroundColor = ConsoleColor.Yellow;
         }
         Console.Write(piece + " ");
-        Console.ResetColor();
       }
-      Console.BackgroundColor = ConsoleColor.Black;
+      
+      Console.ResetColor();
     }
 
     public static Position ReadPosition()
@@ -128,33 +145,65 @@ namespace ChessBoard
 
     public static void PrintMatch(Chess.ChessMatch match)
     {
+      PrintHeader();
       PrintBoard(match.Board, match.CurrentPlayer);
       Console.WriteLine();
+      Console.ForegroundColor = ConsoleColor.DarkCyan;
+      Console.WriteLine("──────────────────────────────────────");
+      Console.ResetColor();
       PrintCapturedPieces(match);
-      Console.WriteLine();
-      Console.WriteLine($"Turno: {match.Turn}");
+      Console.ForegroundColor = ConsoleColor.DarkCyan;
+      Console.WriteLine("──────────────────────────────────────");
+      Console.ResetColor();
+      Console.ForegroundColor = ConsoleColor.Magenta;
+      Console.Write("► Turno: ");
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.WriteLine(match.Turn);
+      Console.ResetColor();
       
       if (!match.Finished)
       {
         if (match.Check)
         {
           Console.ForegroundColor = ConsoleColor.Red;
-          Console.WriteLine("XEQUE!");
+          Console.WriteLine("⚠  XEQUE!  ⚠");
           Console.ResetColor();
         }
         
-        Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.Write("► Aguardando jogada: ");
+        if (match.CurrentPlayer == Color.White)
+        {
+          Console.ForegroundColor = ConsoleColor.White;
+        }
+        else
+        {
+          Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+        Console.WriteLine(match.CurrentPlayer);
+        Console.ResetColor();
       }
     }
 
     private static void PrintCapturedPieces(Chess.ChessMatch match)
     {
-      Console.WriteLine("Peças capturadas:");
-      Console.Write("Brancas: ");
-      PrintPiecesSet(match.GetCapturedPieces(Color.White));
+      var whiteCaptured = match.GetCapturedPieces(Color.White);
+      var blackCaptured = match.GetCapturedPieces(Color.Black);
+      
+      Console.ForegroundColor = ConsoleColor.Gray;
+      Console.WriteLine("⚔  Peças Capturadas:");
+      Console.ResetColor();
+      
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.Write("  Brancas ({0}): ", whiteCaptured.Count);
+      Console.ResetColor();
+      PrintPiecesSet(whiteCaptured);
       Console.WriteLine();
-      Console.Write("Pretas: ");
-      PrintPiecesSet(match.GetCapturedPieces(Color.Black));
+      
+      Console.ForegroundColor = ConsoleColor.Yellow;
+      Console.Write("  Pretas ({0}):  ", blackCaptured.Count);
+      Console.ResetColor();
+      PrintPiecesSet(blackCaptured);
       Console.WriteLine();
     }
 
