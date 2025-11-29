@@ -1,14 +1,29 @@
 ﻿using ChessBoard;
 using Chess;
 
-Console.WriteLine("Welcome to Chess Game!");
-Console.WriteLine();
+try
+{
+  Console.WriteLine("Welcome to Chess Game!");
+  Console.WriteLine();
 
-ChessMatch match = new ChessMatch();
+  ChessMatch match = new ChessMatch();
 
-Console.WriteLine($"Turn: {match.Turn}");
-Console.WriteLine($"Current Player: {match.CurrentPlayer}");
-Console.WriteLine($"Finished: {match.Finished}");
-Console.WriteLine();
+  Console.WriteLine("Tabuleiro inicial:");
+  Screen.PrintBoard(match.Board);
+  Console.WriteLine();
 
-Screen.PrintBoard(match.Board);
+  Console.WriteLine("Teste: Movendo peão branco de (6,4) para (4,4)");
+  Position origin = new Position(6, 4);
+  Position destination = new Position(4, 4);
+
+  match.ValidateOriginPosition(origin);
+  match.ExecuteMove(origin, destination);
+
+  Console.WriteLine();
+  Console.WriteLine("Tabuleiro após movimento:");
+  Screen.PrintBoard(match.Board);
+}
+catch (ChessBoardException ex)
+{
+  Console.WriteLine($"Erro: {ex.Message}");
+}

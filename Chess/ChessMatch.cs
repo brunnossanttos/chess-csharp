@@ -18,6 +18,42 @@ namespace Chess
       PlaceInitialPieces();
     }
 
+    public void ExecuteMove(Position origin, Position destination)
+    {
+      Piece? piece = Board.RemovePiece(origin);
+      piece!.IncreaseMoveCount();
+      Piece? capturedPiece = Board.RemovePiece(destination);
+      Board.PlacePiece(piece, destination);
+    }
+
+    public void ValidateOriginPosition(Position position)
+    {
+      if (Board.GetPiece(position) == null)
+      {
+        throw new ChessBoardException("Não existe peça na posição de origem escolhida!");
+      }
+      if (CurrentPlayer != Board.GetPiece(position)!.Color)
+      {
+        throw new ChessBoardException("A peça de origem escolhida não é sua!");
+      }
+      if (!Board.GetPiece(position)!.HasAnyPossibleMove())
+      {
+        throw new ChessBoardException("Não há movimentos possíveis para a peça de origem escolhida!");
+      }
+    }
+
+    private void ChangePlayer()
+    {
+      if (CurrentPlayer == Color.White)
+      {
+        CurrentPlayer = Color.Black;
+      }
+      else
+      {
+        CurrentPlayer = Color.White;
+      }
+    }
+
     private void PlaceInitialPieces()
     {
       Board.PlacePiece(new Rook(Color.White, Board), new Position(7, 0));
