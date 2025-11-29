@@ -24,6 +24,28 @@ namespace ChessBoard
       Console.WriteLine("  a b c d e f g h");
     }
 
+    public static Position ReadPosition()
+    {
+      string? input = Console.ReadLine();
+      if (string.IsNullOrEmpty(input) || input.Length < 2)
+      {
+        throw new ChessBoardException("Posição inválida!");
+      }
+
+      char column = input[0];
+      int line = int.Parse(input[1].ToString());
+
+      return new Position(8 - line, column - 'a');
+    }
+
+    public static void PrintMatch(Chess.ChessMatch match)
+    {
+      PrintBoard(match.Board);
+      Console.WriteLine();
+      Console.WriteLine($"Turno: {match.Turn}");
+      Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");
+    }
+
     public static void PrintPiece(Piece? piece)
     {
       if (piece == null)

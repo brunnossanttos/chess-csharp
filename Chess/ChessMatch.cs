@@ -26,6 +26,14 @@ namespace Chess
       Board.PlacePiece(piece, destination);
     }
 
+    public void MakeMove(Position origin, Position destination)
+    {
+      ValidateOriginPosition(origin);
+      ExecuteMove(origin, destination);
+      Turn++;
+      ChangePlayer();
+    }
+
     public void ValidateOriginPosition(Position position)
     {
       if (Board.GetPiece(position) == null)

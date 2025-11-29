@@ -3,27 +3,33 @@ using Chess;
 
 try
 {
-  Console.WriteLine("Welcome to Chess Game!");
-  Console.WriteLine();
-
   ChessMatch match = new ChessMatch();
 
-  Console.WriteLine("Tabuleiro inicial:");
-  Screen.PrintBoard(match.Board);
-  Console.WriteLine();
+  while (!match.Finished)
+  {
+    try
+    {
+      Console.Clear();
+      Screen.PrintMatch(match);
 
-  Console.WriteLine("Teste: Movendo peão branco de (6,4) para (4,4)");
-  Position origin = new Position(6, 4);
-  Position destination = new Position(4, 4);
+      Console.WriteLine();
+      Console.Write("Origem: ");
+      Position origin = Screen.ReadPosition();
 
-  match.ValidateOriginPosition(origin);
-  match.ExecuteMove(origin, destination);
+      Console.Write("Destino: ");
+      Position destination = Screen.ReadPosition();
 
-  Console.WriteLine();
-  Console.WriteLine("Tabuleiro após movimento:");
-  Screen.PrintBoard(match.Board);
+      match.MakeMove(origin, destination);
+    }
+    catch (ChessBoardException ex)
+    {
+      Console.WriteLine($"Erro: {ex.Message}");
+      Console.WriteLine("Pressione ENTER para continuar...");
+      Console.ReadLine();
+    }
+  }
 }
-catch (ChessBoardException ex)
+catch (Exception ex)
 {
-  Console.WriteLine($"Erro: {ex.Message}");
+  Console.WriteLine($"Erro inesperado: {ex.Message}");
 }
