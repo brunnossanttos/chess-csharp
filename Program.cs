@@ -15,7 +15,14 @@ try
       Console.WriteLine();
       Console.Write("Origem: ");
       Position origin = Screen.ReadPosition();
+      match.ValidateOriginPosition(origin);
 
+      bool[,] possiblePositions = match.Board.GetPiece(origin)!.PossibleMoves();
+
+      Console.Clear();
+      Screen.PrintBoard(match.Board, possiblePositions, match.CurrentPlayer);
+
+      Console.WriteLine();
       Console.Write("Destino: ");
       Position destination = Screen.ReadPosition();
 

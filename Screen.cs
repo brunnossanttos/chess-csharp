@@ -2,22 +2,95 @@ namespace ChessBoard
 {
   public class Screen
   {
-    public static void PrintBoard(Board board)
+    public static void PrintBoard(Board board, Color currentPlayer)
     {
-      for (int i = 0; i < board.Lines; i++)
+      if (currentPlayer == Color.White)
       {
-        Console.Write(8 - i + " ");
-        for (int j = 0; j < board.Columns; j++)
+        for (int i = 0; i < board.Lines; i++)
         {
-          Piece? piece = board.GetPiece(i, j);
-          PrintPieceColor(piece);
+          Console.Write(8 - i + " ");
+          for (int j = 0; j < board.Columns; j++)
+          {
+            Piece? piece = board.GetPiece(i, j);
+            PrintPieceColor(piece, false);
+          }
+          Console.WriteLine();
         }
-        Console.WriteLine();
+        Console.WriteLine("  a b c d e f g h");
       }
-      Console.WriteLine("  a b c d e f g h");
+      else
+      {
+        for (int i = board.Lines - 1; i >= 0; i--)
+        {
+          Console.Write(8 - i + " ");
+          for (int j = board.Columns - 1; j >= 0; j--)
+          {
+            Piece? piece = board.GetPiece(i, j);
+            PrintPieceColor(piece, false);
+          }
+          Console.WriteLine();
+        }
+        Console.WriteLine("  h g f e d c b a");
+      }
     }
 
-    private static void PrintPieceColor(Piece? piece)
+    public static void PrintBoard(Board board, bool[,] possiblePositions, Color currentPlayer)
+    {
+      ConsoleColor originalBackground = Console.BackgroundColor;
+      ConsoleColor highlightBackground = ConsoleColor.DarkGray;
+
+      if (currentPlayer == Color.White)
+      {
+        for (int i = 0; i < board.Lines; i++)
+        {
+          Console.Write(8 - i + " ");
+          for (int j = 0; j < board.Columns; j++)
+          {
+            if (possiblePositions[i, j])
+            {
+              Console.BackgroundColor = highlightBackground;
+            }
+            else
+            {
+              Console.BackgroundColor = originalBackground;
+            }
+
+            Piece? piece = board.GetPiece(i, j);
+            PrintPieceColor(piece, possiblePositions[i, j]);
+          }
+          Console.WriteLine();
+          Console.BackgroundColor = originalBackground;
+        }
+        Console.WriteLine("  a b c d e f g h");
+      }
+      else
+      {
+        for (int i = board.Lines - 1; i >= 0; i--)
+        {
+          Console.Write(8 - i + " ");
+          for (int j = board.Columns - 1; j >= 0; j--)
+          {
+            if (possiblePositions[i, j])
+            {
+              Console.BackgroundColor = highlightBackground;
+            }
+            else
+            {
+              Console.BackgroundColor = originalBackground;
+            }
+
+            Piece? piece = board.GetPiece(i, j);
+            PrintPieceColor(piece, possiblePositions[i, j]);
+          }
+          Console.WriteLine();
+          Console.BackgroundColor = originalBackground;
+        }
+        Console.WriteLine("  h g f e d c b a");
+      }
+      Console.BackgroundColor = originalBackground;
+    }
+
+    private static void PrintPieceColor(Piece? piece, bool highlight)
     {
       if (piece == null)
       {
@@ -36,6 +109,7 @@ namespace ChessBoard
         Console.Write(piece + " ");
         Console.ResetColor();
       }
+      Console.BackgroundColor = ConsoleColor.Black;
     }
 
     public static Position ReadPosition()
@@ -54,7 +128,7 @@ namespace ChessBoard
 
     public static void PrintMatch(Chess.ChessMatch match)
     {
-      PrintBoard(match.Board);
+      PrintBoard(match.Board, match.CurrentPlayer);
       Console.WriteLine();
       Console.WriteLine($"Turno: {match.Turn}");
       Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");

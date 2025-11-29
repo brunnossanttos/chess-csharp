@@ -29,6 +29,7 @@ namespace Chess
     public void MakeMove(Position origin, Position destination)
     {
       ValidateOriginPosition(origin);
+      ValidateDestinationPosition(origin, destination);
       ExecuteMove(origin, destination);
       Turn++;
       ChangePlayer();
@@ -47,6 +48,14 @@ namespace Chess
       if (!Board.GetPiece(position)!.HasAnyPossibleMove())
       {
         throw new ChessBoardException("Não há movimentos possíveis para a peça de origem escolhida!");
+      }
+    }
+
+    public void ValidateDestinationPosition(Position origin, Position destination)
+    {
+      if (!Board.GetPiece(origin)!.CanMoveTo(destination))
+      {
+        throw new ChessBoardException("Posição de destino inválida!");
       }
     }
 
