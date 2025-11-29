@@ -10,18 +10,32 @@ namespace ChessBoard
         for (int j = 0; j < board.Columns; j++)
         {
           Piece? piece = board.GetPiece(i, j);
-          if (piece == null)
-          {
-            Console.Write("- ");
-          }
-          else
-          {
-            Console.Write(piece + " ");
-          }
+          PrintPieceColor(piece);
         }
         Console.WriteLine();
       }
       Console.WriteLine("  a b c d e f g h");
+    }
+
+    private static void PrintPieceColor(Piece? piece)
+    {
+      if (piece == null)
+      {
+        Console.Write("- ");
+      }
+      else
+      {
+        if (piece.Color == Color.White)
+        {
+          Console.ForegroundColor = ConsoleColor.White;
+        }
+        else
+        {
+          Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+        Console.Write(piece + " ");
+        Console.ResetColor();
+      }
     }
 
     public static Position ReadPosition()
