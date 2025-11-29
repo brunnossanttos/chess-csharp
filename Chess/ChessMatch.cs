@@ -8,6 +8,8 @@ namespace Chess
     public int Turn { get; private set; }
     public Color CurrentPlayer { get; private set; }
     public bool Finished { get; set; }
+    private HashSet<Piece> Pieces { get; set; }
+    private HashSet<Piece> CapturedPieces { get; set; }
 
     public ChessMatch()
     {
@@ -15,6 +17,8 @@ namespace Chess
       Turn = 1;
       CurrentPlayer = Color.White;
       Finished = false;
+      Pieces = new HashSet<Piece>();
+      CapturedPieces = new HashSet<Piece>();
       PlaceInitialPieces();
     }
 
@@ -23,6 +27,12 @@ namespace Chess
       Piece? piece = Board.RemovePiece(origin);
       piece!.IncreaseMoveCount();
       Piece? capturedPiece = Board.RemovePiece(destination);
+      
+      if (capturedPiece != null)
+      {
+        CapturedPieces.Add(capturedPiece);
+      }
+      
       Board.PlacePiece(piece, destination);
     }
 
@@ -59,6 +69,38 @@ namespace Chess
       }
     }
 
+    public HashSet<Piece> GetCapturedPieces(Color color)
+    {
+      HashSet<Piece> captured = new HashSet<Piece>();
+      foreach (Piece piece in CapturedPieces)
+      {
+        if (piece.Color == color)
+        {
+          captured.Add(piece);
+        }
+      }
+      return captured;
+    }
+
+    public HashSet<Piece> GetPiecesInGame(Color color)
+    {
+      HashSet<Piece> inGame = new HashSet<Piece>();
+      foreach (Piece piece in Pieces)
+      {
+        if (piece.Color == color && !CapturedPieces.Contains(piece))
+        {
+          inGame.Add(piece);
+        }
+      }
+      return inGame;
+    }
+
+    private void PlaceNewPiece(char column, int line, Piece piece)
+    {
+      Board.PlacePiece(piece, new Position(8 - line, column - 'a'));
+      Pieces.Add(piece);
+    }
+
     private void ChangePlayer()
     {
       if (CurrentPlayer == Color.White)
@@ -73,33 +115,39 @@ namespace Chess
 
     private void PlaceInitialPieces()
     {
-      Board.PlacePiece(new Rook(Color.White, Board), new Position(7, 0));
-      Board.PlacePiece(new Knight(Color.White, Board), new Position(7, 1));
-      Board.PlacePiece(new Bishop(Color.White, Board), new Position(7, 2));
-      Board.PlacePiece(new Queen(Color.White, Board), new Position(7, 3));
-      Board.PlacePiece(new King(Color.White, Board), new Position(7, 4));
-      Board.PlacePiece(new Bishop(Color.White, Board), new Position(7, 5));
-      Board.PlacePiece(new Knight(Color.White, Board), new Position(7, 6));
-      Board.PlacePiece(new Rook(Color.White, Board), new Position(7, 7));
-      
-      for (int i = 0; i < 8; i++)
-      {
-        Board.PlacePiece(new Pawn(Color.White, Board), new Position(6, i));
-      }
+      PlaceNewPiece('a', 1, new Rook(Color.White, Board));
+      PlaceNewPiece('b', 1, new Knight(Color.White, Board));
+      PlaceNewPiece('c', 1, new Bishop(Color.White, Board));
+      PlaceNewPiece('d', 1, new Queen(Color.White, Board));
+      PlaceNewPiece('e', 1, new King(Color.White, Board));
+      PlaceNewPiece('f', 1, new Bishop(Color.White, Board));
+      PlaceNewPiece('g', 1, new Knight(Color.White, Board));
+      PlaceNewPiece('h', 1, new Rook(Color.White, Board));
+      PlaceNewPiece('a', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('b', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('c', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('d', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('e', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('f', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('g', 2, new Pawn(Color.White, Board));
+      PlaceNewPiece('h', 2, new Pawn(Color.White, Board));
 
-      Board.PlacePiece(new Rook(Color.Black, Board), new Position(0, 0));
-      Board.PlacePiece(new Knight(Color.Black, Board), new Position(0, 1));
-      Board.PlacePiece(new Bishop(Color.Black, Board), new Position(0, 2));
-      Board.PlacePiece(new Queen(Color.Black, Board), new Position(0, 3));
-      Board.PlacePiece(new King(Color.Black, Board), new Position(0, 4));
-      Board.PlacePiece(new Bishop(Color.Black, Board), new Position(0, 5));
-      Board.PlacePiece(new Knight(Color.Black, Board), new Position(0, 6));
-      Board.PlacePiece(new Rook(Color.Black, Board), new Position(0, 7));
-      
-      for (int i = 0; i < 8; i++)
-      {
-        Board.PlacePiece(new Pawn(Color.Black, Board), new Position(1, i));
-      }
+      PlaceNewPiece('a', 8, new Rook(Color.Black, Board));
+      PlaceNewPiece('b', 8, new Knight(Color.Black, Board));
+      PlaceNewPiece('c', 8, new Bishop(Color.Black, Board));
+      PlaceNewPiece('d', 8, new Queen(Color.Black, Board));
+      PlaceNewPiece('e', 8, new King(Color.Black, Board));
+      PlaceNewPiece('f', 8, new Bishop(Color.Black, Board));
+      PlaceNewPiece('g', 8, new Knight(Color.Black, Board));
+      PlaceNewPiece('h', 8, new Rook(Color.Black, Board));
+      PlaceNewPiece('a', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('b', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('c', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('d', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('e', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('f', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('g', 7, new Pawn(Color.Black, Board));
+      PlaceNewPiece('h', 7, new Pawn(Color.Black, Board));
     }
   }
 }

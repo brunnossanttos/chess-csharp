@@ -130,8 +130,40 @@ namespace ChessBoard
     {
       PrintBoard(match.Board, match.CurrentPlayer);
       Console.WriteLine();
+      PrintCapturedPieces(match);
+      Console.WriteLine();
       Console.WriteLine($"Turno: {match.Turn}");
       Console.WriteLine($"Aguardando jogada: {match.CurrentPlayer}");
+    }
+
+    private static void PrintCapturedPieces(Chess.ChessMatch match)
+    {
+      Console.WriteLine("Peças capturadas:");
+      Console.Write("Brancas: ");
+      PrintPiecesSet(match.GetCapturedPieces(Color.White));
+      Console.WriteLine();
+      Console.Write("Pretas: ");
+      PrintPiecesSet(match.GetCapturedPieces(Color.Black));
+      Console.WriteLine();
+    }
+
+    private static void PrintPiecesSet(HashSet<Piece> pieces)
+    {
+      Console.Write("[");
+      foreach (Piece piece in pieces)
+      {
+        if (piece.Color == Color.White)
+        {
+          Console.ForegroundColor = ConsoleColor.White;
+        }
+        else
+        {
+          Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+        Console.Write(piece + " ");
+        Console.ResetColor();
+      }
+      Console.Write("]");
     }
 
     public static void PrintPiece(Piece? piece)
